@@ -296,7 +296,7 @@ describe('useFormal()', () => {
 
   describe('.getSubmitButtonProps()', () => {
     describe('.disabled', () => {
-      it('should be true if the form is not dirty', () => {
+      it('should be true if the form is pristine', () => {
         const { result } = renderHook(() =>
           useFormal(initialValues, {
             onSubmit: values => values,

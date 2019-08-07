@@ -20,6 +20,7 @@ export default function useFormal<Schema>(
   const [isValidating, setIsValidating] = useState<boolean>(false)
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
+  const [isPristine, setIsPristine] = useState<boolean>(true)
 
   const isDirty = useMemo(() => !isEqual(lastValues, values), [
     lastValues,
@@ -34,6 +35,7 @@ export default function useFormal<Schema>(
   const change = useCallback(
     (field: keyof Schema, value: any): void => {
       setValues((prevValues: Schema) => ({ ...prevValues, [field]: value }))
+      setIsPristine(false)
     },
     []
   )
@@ -109,9 +111,9 @@ export default function useFormal<Schema>(
   const getSubmitButtonProps = useCallback(
     () => ({
       disabled:
-        (!isDirty && objectIsEmpty(errors)) || isValidating || isSubmitting,
+        (isPristine && objectIsEmpty(errors)) || isValidating || isSubmitting,
     }),
-    [errors, isDirty, isSubmitting, isValidating]
+    [errors, isPristine, isSubmitting, isValidating]
   )
 
   return {
